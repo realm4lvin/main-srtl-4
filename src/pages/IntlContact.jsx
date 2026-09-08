@@ -6,19 +6,28 @@ const styles = {
   pageWrapper: {
     fontFamily: "'Inter', Arial, sans-serif",
     color: '#1E293B',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F8FAFC',
     minHeight: '100vh',
     paddingBottom: '80px',
   },
   heroBanner: {
-    backgroundImage:
-      'linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)), url("https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1920&q=80")',
+    position: 'relative',
+    minHeight: '360px',
+    backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url("https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1920&q=80")`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    color: '#FFFFFF',
-    padding: '80px 5% 60px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
     textAlign: 'center',
-    marginBottom: '0px',
+    padding: '60px 5% 100px',
+    width: '100%',
+    boxSizing: 'border-box',
+  },
+  heroContent: {
+    maxWidth: '800px',
+    zIndex: 2,
   },
   heroTitle: {
     fontSize: '40px',
@@ -34,12 +43,22 @@ const styles = {
     margin: '0 auto',
     lineHeight: '1.6',
   },
+
+  fadeTransition: {
+    height: '100px',
+    background: 'linear-gradient(to bottom, rgba(248, 250, 252, 0) 0%, #F8FAFC 100%)',
+    marginTop: '-100px',
+    position: 'relative',
+    zIndex: 3,
+    pointerEvents: 'none',
+  },
+
   container: {
     maxWidth: '1200px',
-    margin: '0 auto',
-    padding: '40px 5% 0',
+    margin: '-20px auto 0',
+    padding: '0 5%',
     position: 'relative',
-    zIndex: 1,
+    zIndex: 4,
   },
   formsGrid: {
     display: 'grid',
@@ -49,7 +68,6 @@ const styles = {
     marginBottom: '40px',
     alignItems: 'start',
   },
-  /* SLIDING ANIMATION BASE STYLES */
   animatedSection: {
     opacity: 0,
     transform: 'translateY(40px)',
@@ -59,43 +77,25 @@ const styles = {
     opacity: 1,
     transform: 'translateY(0)',
   },
-  /* BACKGROUND BANNER CONTAINER */
-  supportCardBanner: {
-    backgroundImage:
-      'linear-gradient(rgba(15, 23, 42, 0.55), rgba(15, 23, 42, 0.55)), url("https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=80")',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    borderRadius: '20px',
-    padding: '48px 40px',
-    color: '#FFFFFF',
-    marginBottom: '60px',
+  contactWrapper: {
     display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    gap: '30px',
-    boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
-  },
-  bigBannerLogo: {
-    maxWidth: '380px',
-    maxHeight: '260px',
+    justifyContent: 'center',
+    margin: '60px 0',
     width: '100%',
-    height: 'auto',
-    objectFit: 'contain',
-    filter: 'drop-shadow(0px 8px 20px rgba(0, 0, 0, 0.45))',
-    marginLeft: '20px',
   },
   floatingContactBox: {
-    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.35) 100%)',
-    backdropFilter: 'blur(16px) saturate(180%)',
-    WebkitBackdropFilter: 'blur(16px) saturate(180%)',
-    borderRadius: '16px',
-    padding: '32px',
-    maxWidth: '420px',
+    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.2) 100%)',
+    backdropFilter: 'blur(25px) saturate(200%)',
+    WebkitBackdropFilter: 'blur(25px) saturate(200%)',
+    borderRadius: '28px',
+    padding: '36px',
+    maxWidth: '480px',
     width: '100%',
     color: '#0F172A',
-    border: '1px solid rgba(255, 255, 255, 0.6)',
-    boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.25), inset 0 0 0 1px rgba(255, 255, 255, 0.3)',
+    border: '1px solid rgba(255, 255, 255, 0.8)',
+    borderTop: '1px solid rgba(255, 255, 255, 0.95)',
+    borderLeft: '1px solid rgba(255, 255, 255, 0.95)',
+    boxShadow: '0 20px 50px rgba(0, 0, 0, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.8)',
   },
   boxTitle: {
     fontSize: '22px',
@@ -138,21 +138,29 @@ const styles = {
   },
   mapGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
     gap: '24px',
+    alignItems: 'stretch',
   },
   mapCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: '12px',
+    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.6) 100%)',
+    backdropFilter: 'blur(16px) saturate(180%)',
+    WebkitBackdropFilter: 'blur(16px) saturate(180%)',
+    borderRadius: '24px',
     overflow: 'hidden',
-    boxShadow: '0 4px 15px rgba(0,0,0,0.05)',
-    border: '1px solid #E2E8F0',
+    boxShadow: '0 10px 30px rgba(15, 23, 42, 0.06), inset 0 0 0 1px rgba(255, 255, 255, 0.6)',
+    border: '1px solid rgba(255, 255, 255, 0.8)',
     display: 'flex',
     flexDirection: 'column',
+    height: '100%',
   },
   mapHeader: {
-    padding: '20px',
-    borderBottom: '1px solid #F1F5F9',
+    padding: '24px',
+    borderBottom: '1px solid rgba(226, 232, 240, 0.6)',
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1, 
+    justifyContent: 'space-between', 
   },
   centerTag: {
     color: '#236c47',
@@ -160,31 +168,26 @@ const styles = {
     fontWeight: '800',
     textTransform: 'uppercase',
     letterSpacing: '0.5px',
-    marginBottom: '4px',
-  },
-  centerName: {
-    fontSize: '16px',
-    fontWeight: '700',
-    color: '#0F172A',
-    margin: '0 0 8px',
+    marginBottom: '8px',
   },
   addressText: {
     fontSize: '13px',
     color: '#64748B',
     lineHeight: '1.5',
-    margin: 0,
+    margin: '0 0 12px 0',
+    flex: 1, 
   },
   mapFrame: {
     width: '100%',
-    height: '220px',
+    height: '240px',
     border: 0,
+    marginTop: 'auto',
   },
 };
 
 const centers = [
   {
     tag: 'INTERNATIONAL CONTACT CENTER',
-    title: 'United Kingdom Office',
     address:
       '1st Floor Office Suite, 4 Highcliffe Court, Greenfold Lane, Wetherby, Leeds, LS22 6RG, United Kingdom',
     embedUrl:
@@ -194,7 +197,6 @@ const centers = [
   },
   {
     tag: 'PORT HARCOURT CORPORATE CENTER',
-    title: 'Port Harcourt Office',
     address:
       '6C Forces Avenue, Old G.R.A., Port Harcourt, Rivers State, Nigeria',
     embedUrl:
@@ -204,7 +206,6 @@ const centers = [
   },
   {
     tag: 'LAGOS OPERATIONS CENTER',
-    title: 'Lagos Office',
     address:
       'Left Wing, 3rd Floor, No. 2 Tokunbo Alli Street, Off Toyin Street, Ikeja, Lagos, Nigeria',
     embedUrl:
@@ -214,7 +215,6 @@ const centers = [
   },
 ];
 
-/* Reusable animated wrapper component */
 function SlideInWrapper({ children, delay = '0s', style = {} }) {
   const [isVisible, setIsVisible] = useState(false);
   const elementRef = useRef(null);
@@ -255,16 +255,15 @@ function SlideInWrapper({ children, delay = '0s', style = {} }) {
 export default function IntlContact() {
   return (
     <div style={styles.pageWrapper}>
-      {/* Hero Header */}
       <div style={styles.heroBanner}>
-        <h1 style={styles.heroTitle}>Get in Touch with Safeguard</h1>
-        <p style={styles.heroSubtitle}>
-          Have questions about our HSE certifications or corporate training services? Get in touch with our team across our global offices.
-        </p>
+        <div style={styles.heroContent}>
+          <h1 style={styles.heroTitle}>Get in Touch with Safeguard</h1>
+        </div>
       </div>
 
+      <div style={styles.fadeTransition} />
+
       <div style={styles.container}>
-        {/* Animated Side-by-Side Forms */}
         <SlideInWrapper>
           <div style={styles.formsGrid}>
             <Form title="INDIVIDUAL OR PERSONAL REQUEST" />
@@ -272,11 +271,8 @@ export default function IntlContact() {
           </div>
         </SlideInWrapper>
 
-        {/* Animated Contact Card Banner */}
         <SlideInWrapper>
-          <div style={styles.supportCardBanner}>
-            <img src="/logo.png" alt="Safeguard Logo" style={styles.bigBannerLogo} />
-
+          <div style={styles.contactWrapper}>
             <div style={styles.floatingContactBox}>
               <h2 style={styles.boxTitle}>
                 <Phone size={22} />
@@ -336,38 +332,39 @@ export default function IntlContact() {
           </div>
         </SlideInWrapper>
 
-        {/* Animated Corporate Offices Section */}
         <SlideInWrapper>
           <h2 style={styles.centerSectionTitle}>Our Corporate Offices</h2>
           <div style={styles.mapGrid}>
             {centers.map((center, index) => (
-              <SlideInWrapper key={index} delay={`${(index % 3) * 0.12}s`}>
+              <SlideInWrapper key={index} delay={`${(index % 3) * 0.12}s`} style={{ display: 'flex' }}>
                 <div style={styles.mapCard}>
                   <div style={styles.mapHeader}>
-                    <div style={styles.centerTag}>{center.tag}</div>
-                    <h3 style={styles.centerName}>{center.title}</h3>
-                    <p style={styles.addressText}>{center.address}</p>
-                    <a
-                      href={center.directMapUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                        fontSize: '12px',
-                        color: '#236c47',
-                        fontWeight: '700',
-                        marginTop: '10px',
-                        textDecoration: 'none',
-                      }}
-                    >
-                      <span>Open in Google Maps</span>
-                      <ExternalLink size={12} />
-                    </a>
+                    <div>
+                      <div style={styles.centerTag}>{center.tag}</div>
+                      <p style={styles.addressText}>{center.address}</p>
+                    </div>
+                    <div>
+                      <a
+                        href={center.directMapUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                          fontSize: '12px',
+                          color: '#236c47',
+                          fontWeight: '700',
+                          textDecoration: 'none',
+                        }}
+                      >
+                        <span>Open in Google Maps</span>
+                        <ExternalLink size={12} />
+                      </a>
+                    </div>
                   </div>
                   <iframe
-                    title={center.title}
+                    title={center.tag}
                     src={center.embedUrl}
                     style={styles.mapFrame}
                     loading="lazy"

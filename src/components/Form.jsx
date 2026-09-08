@@ -15,11 +15,15 @@ const courseSelectOptions = courseOptions.map((course) => ({
 
 const formStyles = {
   cardContainer: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: '12px',
-    boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)',
-    border: '1px solid #E2E8F0',
-    padding: '36px 32px',
+    /* Liquid Glass Effect */
+    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.45) 100%)',
+    backdropFilter: 'blur(20px) saturate(180%)',
+    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+    border: '1px solid rgba(255, 255, 255, 0.8)',
+    boxShadow: '0 20px 40px rgba(15, 23, 42, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.5)',
+    /* Cylindrical Curved Borders */
+    borderRadius: '28px',
+    padding: '40px 32px',
     width: '100%',
     boxSizing: 'border-box',
   },
@@ -39,39 +43,46 @@ const formStyles = {
     display: 'block',
     fontSize: '14px',
     fontWeight: '700',
-    color: '#1E293B',
+    color: '#0F172A',
     marginBottom: '8px',
   },
   input: {
     width: '100%',
-    padding: '12px 16px',
-    borderRadius: '8px',
-    border: '1px solid #CBD5E1',
+    padding: '12px 18px',
+    borderRadius: '14px',
+    border: '1px solid rgba(203, 213, 225, 0.8)',
     fontSize: '14px',
     color: '#334155',
     boxSizing: 'border-box',
     outline: 'none',
-    backgroundColor: '#FFFFFF',
+    /* Subtle Liquid Glass Input Background */
+    backgroundColor: 'rgba(255, 255, 255, 0.65)',
+    backdropFilter: 'blur(8px)',
+    WebkitBackdropFilter: 'blur(8px)',
+    transition: 'all 0.2s ease',
   },
   textarea: {
     width: '100%',
-    padding: '12px 16px',
-    borderRadius: '8px',
-    border: '1px solid #CBD5E1',
+    padding: '12px 18px',
+    borderRadius: '16px',
+    border: '1px solid rgba(203, 213, 225, 0.8)',
     fontSize: '14px',
     color: '#334155',
     boxSizing: 'border-box',
     outline: 'none',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'rgba(255, 255, 255, 0.65)',
+    backdropFilter: 'blur(8px)',
+    WebkitBackdropFilter: 'blur(8px)',
     minHeight: '100px',
     resize: 'vertical',
     fontFamily: 'inherit',
+    transition: 'all 0.2s ease',
   },
   submitBtn: {
     backgroundColor: '#236c47',
     color: '#FFFFFF',
     border: 'none',
-    borderRadius: '8px',
+    borderRadius: '50px', /* Full Pill / Cylindrical Button */
     padding: '16px',
     fontSize: '15px',
     fontWeight: '800',
@@ -84,29 +95,42 @@ const formStyles = {
     alignItems: 'center',
     justifyContent: 'center',
     gap: '10px',
-    transition: 'background-color 0.2s ease, transform 0.2s ease',
+    boxShadow: '0 8px 20px rgba(35, 108, 71, 0.25)',
+    transition: 'all 0.2s ease',
   },
 };
 
 const customSelectStyles = {
   control: (base, state) => ({
     ...base,
-    borderRadius: '8px',
-    borderColor: state.isFocused ? '#236c47' : '#CBD5E1',
-    boxShadow: state.isFocused ? '0 0 0 1px #236c47' : 'none',
+    borderRadius: '14px',
+    borderColor: state.isFocused ? '#236c47' : 'rgba(203, 213, 225, 0.8)',
+    backgroundColor: 'rgba(255, 255, 255, 0.65)',
+    backdropFilter: 'blur(8px)',
+    WebkitBackdropFilter: 'blur(8px)',
+    boxShadow: state.isFocused ? '0 0 0 2px rgba(35, 108, 71, 0.2)' : 'none',
     '&:hover': {
       borderColor: '#236c47',
     },
-    padding: '2px',
+    padding: '2px 4px',
     fontSize: '14px',
+  }),
+  menu: (base) => ({
+    ...base,
+    borderRadius: '16px',
+    overflow: 'hidden',
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    backdropFilter: 'blur(16px)',
+    border: '1px solid rgba(255, 255, 255, 0.6)',
+    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)',
   }),
   option: (base, state) => ({
     ...base,
     backgroundColor: state.isSelected
       ? '#236c47'
       : state.isFocused
-      ? '#DCFCE7'
-      : '#FFFFFF',
+      ? 'rgba(220, 252, 231, 0.8)'
+      : 'transparent',
     color: state.isSelected ? '#FFFFFF' : '#1E293B',
     fontSize: '14px',
     cursor: 'pointer',
@@ -237,16 +261,19 @@ export default function Form({ title = 'Individual or Personal Request' }) {
                 width: '100%',
                 height: '45px',
                 fontSize: '14px',
-                borderRadius: '8px',
-                borderColor: '#CBD5E1',
+                borderRadius: '14px',
+                borderColor: 'rgba(203, 213, 225, 0.8)',
+                backgroundColor: 'rgba(255, 255, 255, 0.65)',
+                backdropFilter: 'blur(8px)',
               }}
               buttonStyle={{
-                borderRadius: '8px 0 0 8px',
-                borderColor: '#CBD5E1',
-                backgroundColor: '#F8FAFC',
+                borderRadius: '14px 0 0 14px',
+                borderColor: 'rgba(203, 213, 225, 0.8)',
+                backgroundColor: 'rgba(248, 250, 252, 0.75)',
               }}
               dropdownStyle={{
                 width: '300px',
+                borderRadius: '16px',
               }}
             />
           </div>
@@ -264,31 +291,31 @@ export default function Form({ title = 'Individual or Personal Request' }) {
             />
           </div>
 
-{/* Course Choice with Search */}
-<div style={formStyles.formGroup}>
-  <label style={formStyles.label}>Course or Service of Choice:</label>
-  <Select
-    options={courseSelectOptions}
-    value={formData.course}
-    onChange={(selected) => setFormData({ ...formData, course: selected })}
-    placeholder="Select your Course or Service of Choice"
-    styles={customSelectStyles}
-    isSearchable
-  />
-</div>
+          {/* Course Choice with Search */}
+          <div style={formStyles.formGroup}>
+            <label style={formStyles.label}>Course or Service of Choice:</label>
+            <Select
+              options={courseSelectOptions}
+              value={formData.course}
+              onChange={(selected) => setFormData({ ...formData, course: selected })}
+              placeholder="Select your Course or Service of Choice"
+              styles={customSelectStyles}
+              isSearchable
+            />
+          </div>
 
-{/* Country Location with Search */}
-<div style={formStyles.formGroup}>
-  <label style={formStyles.label}>Country of Location:</label>
-  <Select
-    options={countryOptions}
-    value={formData.country}
-    onChange={(selected) => setFormData({ ...formData, country: selected })}
-    placeholder="Select your Country of Location"
-    styles={customSelectStyles}
-    isSearchable
-  />
-</div>
+          {/* Country Location with Search */}
+          <div style={formStyles.formGroup}>
+            <label style={formStyles.label}>Country of Location:</label>
+            <Select
+              options={countryOptions}
+              value={formData.country}
+              onChange={(selected) => setFormData({ ...formData, country: selected })}
+              placeholder="Select your Country of Location"
+              styles={customSelectStyles}
+              isSearchable
+            />
+          </div>
 
           {/* Message Box */}
           <div style={formStyles.formGroup}>
@@ -312,6 +339,7 @@ export default function Form({ title = 'Individual or Personal Request' }) {
               ...formStyles.submitBtn,
               backgroundColor: btnHover ? '#1b5437' : '#236c47',
               transform: btnHover ? 'translateY(-2px)' : 'translateY(0)',
+              boxShadow: btnHover ? '0 12px 24px rgba(35, 108, 71, 0.35)' : formStyles.submitBtn.boxShadow,
               opacity: loading ? 0.7 : 1,
             }}
           >

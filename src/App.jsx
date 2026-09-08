@@ -9,11 +9,6 @@ import About from './pages/About';
 import CoursesLanding from './pages/CoursesLanding';
 import ServicesLanding from './pages/ServicesLanding';
 
-// Portal Dispatch Selectors
-import CalendarLanding from './pages/CalendarLanding';
-import RegisterLanding from './pages/RegisterLanding';
-import ContactLanding from './pages/ContactLanding';
-
 // Course Sub-Pages
 import NeboshAwards from './pages/NeboshAwards';
 import NeboshCertificates from './pages/NeboshCertificates';
@@ -31,8 +26,6 @@ import Environmental from './pages/Environmental';
 import EquipmentSupply from './pages/EquipmentSupply';
 
 // Regional Portal Sub-Pages
-import IntlCalendar from './pages/IntlCalendar';
-import NgCalendar from './pages/NgCalendar';
 import IntlRegister from './pages/IntlRegister';
 import NgRegister from './pages/NgRegister';
 import IntlContact from './pages/IntlContact';
@@ -64,11 +57,6 @@ function App() {
             <Route path="/courses" element={<CoursesLanding />} />
             <Route path="/services" element={<ServicesLanding />} />
 
-            {/* Parent Portal Selectors */}
-            <Route path="/calendar" element={<CalendarLanding />} />
-            <Route path="/register" element={<RegisterLanding />} />
-            <Route path="/contact" element={<ContactLanding />} />
-
             {/* Course Sub-pages */}
             <Route path="/courses/nebosh-awards" element={<NeboshAwards />} />
             <Route path="/courses/nebosh-certificates" element={<NeboshCertificates />} />
@@ -86,8 +74,6 @@ function App() {
             <Route path="/services/equipment-supply" element={<EquipmentSupply />} />
 
             {/* Regional Sub-pages */}
-            <Route path="/intl/calendar" element={<IntlCalendar />} />
-            <Route path="/ng/calendar" element={<NgCalendar />} />
             <Route path="/intl/register" element={<IntlRegister />} />
             <Route path="/ng/register" element={<NgRegister />} />
             <Route path="/intl/contact" element={<IntlContact />} />

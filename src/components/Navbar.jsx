@@ -236,33 +236,33 @@ function Navbar() {
               }}
               onMouseLeave={() => setActiveDropdown(null)}
             >
-              <Link to="/calendar" style={styles.link}>
+              <div style={styles.link}>
                 CALENDAR <ChevronDown size={12} color="#0F172A" />
-              </Link>
-{activeDropdown === 'calendar' && (
-  <div style={styles.dropdownWrapper}>
-    <div style={styles.dropdownMenu}>
-      <a 
-        href="/docs/intl-calendar.pdf" 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        className="dropdown-item-link" 
-        style={styles.dropdownItem}
-      >
-        INTERNATIONAL LEARNERS
-      </a>
-      <a 
-        href="/docs/ng-calendar.pdf" 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        className="dropdown-item-link" 
-        style={styles.dropdownItem}
-      >
-        NIGERIAN LEARNERS
-      </a>
-    </div>
-  </div>
-)}
+              </div>
+              {activeDropdown === 'calendar' && (
+                <div style={styles.dropdownWrapper}>
+                  <div style={styles.dropdownMenu}>
+                    <a 
+                      href="/docs/intl-calendar.pdf" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="dropdown-item-link" 
+                      style={styles.dropdownItem}
+                    >
+                      INTERNATIONAL LEARNERS
+                    </a>
+                    <a 
+                      href="/docs/ng-calendar.pdf" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="dropdown-item-link" 
+                      style={styles.dropdownItem}
+                    >
+                      NIGERIAN LEARNERS
+                    </a>
+                  </div>
+                </div>
+              )}
             </li>
 
             {/* REGISTER NOW */}
@@ -274,9 +274,9 @@ function Navbar() {
               }}
               onMouseLeave={() => setActiveDropdown(null)}
             >
-              <Link to="/register" style={styles.link}>
+              <div style={styles.link}>
                 REGISTER NOW <ChevronDown size={12} color="#0F172A" />
-              </Link>
+              </div>
               {activeDropdown === 'register' && (
                 <div style={styles.dropdownWrapper}>
                   <div style={styles.dropdownMenu}>
@@ -296,9 +296,9 @@ function Navbar() {
               }}
               onMouseLeave={() => setActiveDropdown(null)}
             >
-              <Link to="/contact" style={styles.link}>
+              <div style={styles.link}>
                 CONTACT US <ChevronDown size={12} color="#0F172A" />
-              </Link>
+              </div>
               {activeDropdown === 'contact' && (
                 <div style={styles.dropdownWrapper}>
                   <div style={styles.dropdownMenu}>
