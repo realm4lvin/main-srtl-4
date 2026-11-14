@@ -256,7 +256,7 @@ function CourseCard({ course, index }) {
         onMouseEnter={() => setBtnHovered(true)}
         onMouseLeave={() => setBtnHovered(false)}
       >
-        EXPLORE PROGRAM{' '}
+        EXPLORE{' '}
         <ArrowRight
           size={16}
           style={{

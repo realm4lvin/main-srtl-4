@@ -1,8 +1,236 @@
+import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
+
+const styles = {
+  pageWrapper: {
+    backgroundColor: '#FFFFFF',
+    color: '#0F172A',
+    minHeight: '100vh',
+    paddingBottom: '100px',
+    fontFamily: 'Arial, sans-serif',
+  },
+  heroBanner: {
+    position: 'relative',
+    minHeight: '360px',
+    backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1600&q=80')`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    padding: '60px 20px',
+    width: '100%',
+    boxSizing: 'border-box',
+  },
+  heroContent: {
+    maxWidth: '800px',
+    zIndex: 2,
+  },
+  heroTitle: {
+    fontSize: '44px',
+    fontWeight: '800',
+    lineHeight: '1.2',
+    marginBottom: '16px',
+    color: '#FFFFFF',
+  },
+  heroSubtitle: {
+    fontSize: '16px',
+    color: '#E2E8F0',
+    lineHeight: '1.6',
+  },
+  fadeTransition: {
+    height: '80px',
+    background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%)',
+    marginTop: '-80px',
+    position: 'relative',
+    zIndex: 3,
+  },
+  grid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+    gap: '24px',
+    maxWidth: '1200px',
+    margin: '20px auto 0',
+    padding: '0 5%',
+    position: 'relative',
+    zIndex: 4,
+  },
+  cardBase: {
+    backgroundColor: '#F8FAFC',
+    border: '2px solid #0F172A',
+    borderRadius: '16px',
+    padding: '32px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    opacity: 0,
+    transform: 'translateY(40px)',
+    transition: 'opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease, border-color 0.3s ease',
+  },
+  cardVisible: {
+    opacity: 1,
+    transform: 'translateY(0)',
+  },
+  cardHover: {
+    transform: 'translateY(-8px)',
+    borderColor: '#059669',
+    boxShadow: '0 20px 30px -10px rgba(5, 150, 105, 0.25)',
+  },
+  cardTitle: {
+    fontSize: '22px',
+    fontWeight: '700',
+    marginBottom: '12px',
+    color: '#0F172A',
+  },
+  cardDesc: {
+    fontSize: '14px',
+    color: '#475569',
+    lineHeight: '1.6',
+    marginBottom: '28px',
+  },
+  cardButton: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '8px',
+    backgroundColor: '#059669',
+    color: '#FFFFFF',
+    fontWeight: '700',
+    fontSize: '13px',
+    letterSpacing: '0.5px',
+    textDecoration: 'none',
+    padding: '12px 24px',
+    borderRadius: '50px',
+    boxShadow: '0 4px 12px rgba(5, 150, 105, 0.2)',
+    transition: 'all 0.2s ease',
+    width: 'fit-content',
+  },
+  cardButtonHover: {
+    backgroundColor: '#047857',
+    boxShadow: '0 6px 16px rgba(5, 150, 105, 0.35)',
+  },
+  arrowIcon: {
+    transition: 'transform 0.2s ease',
+  },
+  arrowIconHover: {
+    transform: 'translateX(5px)',
+  },
+};
+
+const diplomaCourses = [
+  {
+    title: 'Nebosh International Diploma in Health and Safety (ID)',
+    desc: 'Master-level qualification for senior health and safety professionals, empowering you to shape organizational safety strategy globally.',
+    path: '#',
+  },
+  {
+    title: 'Nebosh International Diploma in Environmental Management (IDE)',
+    desc: 'Advanced strategic qualification focusing on international environmental management systems, sustainability, and compliance leadership.',
+    path: '#',
+  },
+  {
+    title: 'Nebosh National Diploma in Health and Safety (ND)',
+    desc: 'The prestigious UK master-level qualification for health and safety practitioners aiming for top-tier leadership and consultancy roles.',
+    path: '#',
+  },
+  {
+    title: 'Nebosh National Diploma in Environmental Management (NDE)',
+    desc: 'Expert-level UK environmental qualification designed for professionals directing corporate green strategies and ecological compliance.',
+    path: '#',
+  },
+];
+
+function CourseCard({ course, index }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [btnHovered, setBtnHovered] = useState(false);
+  const cardRef = useRef(null);
+
+  useEffect(() => {
+    const node = cardRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(node);
+    return () => {
+      observer.unobserve(node);
+    };
+  }, []);
+
+  const staggerDelay = `${(index % 3) * 0.12}s`;
+
+  return (
+    <div
+      ref={cardRef}
+      style={{
+        ...styles.cardBase,
+        transitionDelay: staggerDelay,
+        ...(isVisible ? styles.cardVisible : {}),
+        ...(isHovered && isVisible ? styles.cardHover : {}),
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div>
+        <h2 style={styles.cardTitle}>{course.title}</h2>
+        <p style={styles.cardDesc}>{course.desc}</p>
+      </div>
+      <Link
+        to={course.path}
+        style={{
+          ...styles.cardButton,
+          ...(btnHovered ? styles.cardButtonHover : {}),
+        }}
+        onMouseEnter={() => setBtnHovered(true)}
+        onMouseLeave={() => setBtnHovered(false)}
+      >
+        EXPLORE{' '}
+        <ArrowRight
+          size={16}
+          style={{
+            ...styles.arrowIcon,
+            ...(btnHovered ? styles.arrowIconHover : {}),
+          }}
+        />
+      </Link>
+    </div>
+  );
+}
+
 export default function NeboshDiplomas() {
   return (
-    <div style={{ padding: '80px 5%', color: '#fff', backgroundColor: '#0F172A', minHeight: '80vh' }}>
-      <h1>NEBOSH Diplomas</h1>
-      <p>Advanced qualifications for senior safety professionals and managers.</p>
+    <div style={styles.pageWrapper}>
+      {/* Hero Banner */}
+      <div style={styles.heroBanner}>
+        <div style={styles.heroContent}>
+          <h1 style={styles.heroTitle}>NEBOSH Diploma Courses</h1>
+          <p style={styles.heroSubtitle}>
+            Master-level qualifications tailored for senior safety managers, consultants, and strategic directors.
+          </p>
+        </div>
+      </div>
+
+      {/* Smooth Fade Transition Overlay */}
+      <div style={styles.fadeTransition} />
+
+      {/* Course Cards Grid */}
+      <div style={styles.grid}>
+        {diplomaCourses.map((course, index) => (
+          <CourseCard key={course.title} course={course} index={index} />
+        ))}
+      </div>
     </div>
   );
 }

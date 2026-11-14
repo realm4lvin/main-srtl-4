@@ -1,8 +1,390 @@
-export default function QhseCompetency() {
+import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, Search } from 'lucide-react';
+
+const styles = {
+  pageWrapper: {
+    backgroundColor: '#FFFFFF',
+    color: '#0F172A',
+    minHeight: '100vh',
+    paddingBottom: '100px',
+    fontFamily: 'Arial, sans-serif',
+  },
+  heroBanner: {
+    position: 'relative',
+    minHeight: '400px',
+    backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1600&q=80')`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    padding: '60px 20px 80px',
+    width: '100%',
+    boxSizing: 'border-box',
+  },
+  heroContent: {
+    maxWidth: '800px',
+    zIndex: 2,
+  },
+  heroTitle: {
+    fontSize: '44px',
+    fontWeight: '800',
+    lineHeight: '1.2',
+    marginBottom: '16px',
+    color: '#FFFFFF',
+  },
+  heroSubtitle: {
+    fontSize: '16px',
+    color: '#E2E8F0',
+    lineHeight: '1.6',
+    marginBottom: '32px',
+  },
+  glassSearchContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 0.12)',
+    backdropFilter: 'blur(16px)',
+    WebkitBackdropFilter: 'blur(16px)',
+    border: '1px solid rgba(255, 255, 255, 0.25)',
+    borderRadius: '50px',
+    padding: '8px',
+    maxWidth: '600px',
+    width: '90%',
+    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2)',
+    zIndex: 2,
+  },
+  searchInputWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    borderRadius: '50px',
+    padding: '8px 20px',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
+  },
+  searchInput: {
+    border: 'none',
+    outline: 'none',
+    width: '100%',
+    padding: '10px 12px',
+    fontSize: '15px',
+    color: '#0F172A',
+    fontWeight: '500',
+  },
+  fadeTransition: {
+    height: '80px',
+    background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%)',
+    marginTop: '-80px',
+    position: 'relative',
+    zIndex: 3,
+  },
+  grid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+    gap: '24px',
+    maxWidth: '1200px',
+    margin: '20px auto 0',
+    padding: '0 5%',
+    position: 'relative',
+    zIndex: 4,
+  },
+  cardBase: {
+    backgroundColor: '#F8FAFC',
+    border: '2px solid #0F172A',
+    borderRadius: '16px',
+    padding: '32px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    opacity: 0,
+    transform: 'translateY(40px)',
+    transition: 'opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease, border-color 0.3s ease',
+  },
+  cardVisible: {
+    opacity: 1,
+    transform: 'translateY(0)',
+  },
+  cardHover: {
+    transform: 'translateY(-8px)',
+    borderColor: '#059669',
+    boxShadow: '0 20px 30px -10px rgba(5, 150, 105, 0.25)',
+  },
+  cardTitle: {
+    fontSize: '22px',
+    fontWeight: '700',
+    marginBottom: '12px',
+    color: '#0F172A',
+  },
+  cardDesc: {
+    fontSize: '14px',
+    color: '#475569',
+    lineHeight: '1.6',
+    marginBottom: '28px',
+  },
+  cardButton: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '8px',
+    backgroundColor: '#059669',
+    color: '#FFFFFF',
+    fontWeight: '700',
+    fontSize: '13px',
+    letterSpacing: '0.5px',
+    textDecoration: 'none',
+    padding: '12px 24px',
+    borderRadius: '50px',
+    boxShadow: '0 4px 12px rgba(5, 150, 105, 0.2)',
+    transition: 'all 0.2s ease',
+    width: 'fit-content',
+  },
+  cardButtonHover: {
+    backgroundColor: '#047857',
+    boxShadow: '0 6px 16px rgba(5, 150, 105, 0.35)',
+  },
+  arrowIcon: {
+    transition: 'transform 0.2s ease',
+  },
+  arrowIconHover: {
+    transform: 'translateX(5px)',
+  },
+  noResults: {
+    textAlign: 'center',
+    gridColumn: '1 / -1',
+    padding: '60px 20px',
+    color: '#64748B',
+    fontSize: '18px',
+  },
+};
+
+const competencyCourses = [
+  {
+    title: 'HSE-PCP: Professional General HSE, First Aid, Fire Fighting & Env. Mgt. (4 Certificates)',
+    desc: 'Comprehensive multi-disciplinary program delivering four specialized certifications covering general safety, first aid, fire response, and environmental care.',
+    path: '#',
+  },
+  {
+    title: 'HSE Adv. Certificate Program in Mgt., Supervision & Leadership (Adv. HSE)',
+    desc: 'Advanced professional certification focusing on leadership development, safety supervision, and operational management systems.',
+    path: '#',
+  },
+  {
+    title: 'Defensive Driving Techniques',
+    desc: 'Advanced vehicle handling instruction designed to minimize road risks, anticipate hazards, and ensure safe transit operations.',
+    path: '#',
+  },
+  {
+    title: 'Journey Management',
+    desc: 'Systematic route planning, risk identification, and tracking protocols to secure safe transportation across hazardous terrains.',
+    path: '#',
+  },
+  {
+    title: 'Manual Handling and Safe Lifting',
+    desc: 'Practical techniques to prevent musculoskeletal injuries by evaluating loads and applying correct lifting biomechanics.',
+    path: '#',
+  },
+  {
+    title: 'Hydrogen Sulphide Safety',
+    desc: 'Critical awareness training on H2S gas properties, personal gas monitors, escape breathing apparatus, and emergency response.',
+    path: '#',
+  },
+  {
+    title: 'Safe Handling of Chemicals (SHOC)',
+    desc: 'Proper procedures for storing, transferring, and handling hazardous industrial chemicals safely while preventing exposures.',
+    path: '#',
+  },
+  {
+    title: 'Control of Substances Hazardous to Health (COSHH)',
+    desc: 'Assess chemical health risks and implement effective workplace controls to protect workers from toxic substances.',
+    path: '#',
+  },
+  {
+    title: 'Working at Height',
+    desc: 'Fall prevention principles, inspection of harnesses/ladders, and safe execution of elevated work tasks.',
+    path: '#',
+  },
+  {
+    title: 'Behaviour Based Safety (BBS)',
+    desc: 'Proactive safety culture framework focusing on observing worker habits, reinforcing positive actions, and correcting unsafe behaviors.',
+    path: '#',
+  },
+  {
+    title: 'Incident/ Accident Investigation',
+    desc: 'Root-cause analysis methods to uncover why workplace incidents occur and how to implement effective corrective actions.',
+    path: '#',
+  },
+  {
+    title: 'Health and Safety Auditing',
+    desc: 'Systematic evaluation of occupational health and safety management systems to measure compliance and performance.',
+    path: '#',
+  },
+  {
+    title: 'Permit to Work System',
+    desc: 'Formal procedural control framework ensuring hazardous non-routine tasks are authorized and managed safely.',
+    path: '#',
+  },
+  {
+    title: 'Health and Safety Risk Assessment',
+    desc: 'Methodical hazard identification, risk evaluation, and control hierarchy implementation for safe workplaces.',
+    path: '#',
+  },
+  {
+    title: 'Job Safety (Hazard) Analysis',
+    desc: 'Step-by-step evaluation of job tasks to uncover hidden safety hazards and establish safe job procedures.',
+    path: '#',
+  },
+  {
+    title: 'Incident/Accident Investigation Using Bow-Tie & Fault-Tree Software',
+    desc: 'Advanced analytical modeling using bow-tie and fault-tree methodologies to map barrier failures and accident pathways.',
+    path: '#',
+  },
+  {
+    title: 'Environmental Health & Waste Mgt.',
+    desc: 'Best practices for managing industrial waste streams, pollution control, and public health preservation.',
+    path: '#',
+  },
+  {
+    title: 'Environmental Risk Control & Mgt.',
+    desc: 'Strategies for identifying environmental aspects, assessing ecological impact, and maintaining regulatory compliance.',
+    path: '#',
+  },
+  {
+    title: 'Food Handling Safety and Hygiene',
+    desc: 'Hygienic food preparation, contamination prevention, and safety standards for catering and camp operations.',
+    path: '#',
+  },
+  {
+    title: 'Workplace Hazard Management',
+    desc: 'Comprehensive identification, assessment, and mitigation of physical, chemical, and biological workplace hazards.',
+    path: '#',
+  },
+  {
+    title: 'Office Safety and Ergonomics',
+    desc: 'Ergonomic workspace design, workstation adjustments, and office hazard awareness to protect desk-bound personnel.',
+    path: '#',
+  },
+  {
+    title: 'Security Awareness & Crime Prevention',
+    desc: 'Personal security protocols, threat awareness, and situational preparedness to safeguard personnel against criminal acts.',
+    path: '#',
+  },
+];
+
+function CourseCard({ course, index }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [btnHovered, setBtnHovered] = useState(false);
+  const cardRef = useRef(null);
+
+  useEffect(() => {
+    const node = cardRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(node);
+    return () => {
+      observer.unobserve(node);
+    };
+  }, []);
+
+  const staggerDelay = `${(index % 3) * 0.12}s`;
+
   return (
-    <div style={{ padding: '80px 5%', color: '#fff', backgroundColor: '#0F172A', minHeight: '80vh' }}>
-      <h1>QHSE Competency Courses</h1>
-      <p>Skill development for safety auditors and management systems coordinators.</p>
+    <div
+      ref={cardRef}
+      style={{
+        ...styles.cardBase,
+        transitionDelay: staggerDelay,
+        ...(isVisible ? styles.cardVisible : {}),
+        ...(isHovered && isVisible ? styles.cardHover : {}),
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div>
+        <h2 style={styles.cardTitle}>{course.title}</h2>
+        <p style={styles.cardDesc}>{course.desc}</p>
+      </div>
+      <Link
+        to={course.path}
+        style={{
+          ...styles.cardButton,
+          ...(btnHovered ? styles.cardButtonHover : {}),
+        }}
+        onMouseEnter={() => setBtnHovered(true)}
+        onMouseLeave={() => setBtnHovered(false)}
+      >
+        EXPLORE{' '}
+        <ArrowRight
+          size={16}
+          style={{
+            ...styles.arrowIcon,
+            ...(btnHovered ? styles.arrowIconHover : {}),
+          }}
+        />
+      </Link>
+    </div>
+  );
+}
+
+export default function QhseCompetency() {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredCourses = competencyCourses.filter((course) =>
+    course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    course.desc.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  return (
+    <div style={styles.pageWrapper}>
+      {/* Hero Banner */}
+      <div style={styles.heroBanner}>
+        <div style={styles.heroContent}>
+          <h1 style={styles.heroTitle}>HSE Competency Courses</h1>
+          <p style={styles.heroSubtitle}>
+            Specialized competency certification pathways covering management systems, technical safety, auditing, and environmental controls.
+          </p>
+        </div>
+
+        {/* Clean Glassmorphic Live Search Input */}
+        <div style={styles.glassSearchContainer}>
+          <div style={styles.searchInputWrapper}>
+            <Search size={20} color="#64748B" />
+            <input
+              type="text"
+              placeholder="Search HSE competency courses..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              style={styles.searchInput}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Smooth Fade Transition Overlay */}
+      <div style={styles.fadeTransition} />
+
+      {/* Course Cards Grid */}
+      <div style={styles.grid}>
+        {filteredCourses.length > 0 ? (
+          filteredCourses.map((course, index) => (
+            <CourseCard key={course.title} course={course} index={index} />
+          ))
+        ) : (
+          <div style={styles.noResults}>
+            No HSE competency courses matched your search criteria.
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -17,7 +17,8 @@ const heroSlides = [
     subtitle: "Advance your safety career with globally recognized diplomas, certificates, and award courses.",
     ctaText: "Explore NEBOSH Courses",
     ctaLink: "/courses/nebosh-certificates",
-    image: neboshImg
+    image: neboshImg,
+    themeColor: "15, 23, 42"
   },
   {
     badge: "Leadership & Management",
@@ -25,7 +26,8 @@ const heroSlides = [
     subtitle: "Empower your managers and supervisors with world-class safety leadership skills.",
     ctaText: "Book IOSH Training",
     ctaLink: "/courses/iosh",
-    image: ioshImg
+    image: ioshImg,
+    themeColor: "30, 41, 59"
   },
   {
     badge: "Compliance & Auditing",
@@ -33,7 +35,8 @@ const heroSlides = [
     subtitle: "Master ISO 9001, ISO 14001, ISO 45001, and more with expert-led audit training.",
     ctaText: "View ISO Tracks",
     ctaLink: "/services/iso-audit",
-    image: isoImg
+    image: isoImg,
+    themeColor: "40, 30, 20"
   },
   {
     badge: "Emergency Preparedness",
@@ -41,7 +44,8 @@ const heroSlides = [
     subtitle: "Equip your teams with life-saving skills, advanced fire fighting, BLS, and CPR certifications.",
     ctaText: "Explore Emergency Courses",
     ctaLink: "/courses/fire",
-    image: emergencyImg
+    image: emergencyImg,
+    themeColor: "60, 20, 25"
   },
   {
     badge: "High-Risk Operations",
@@ -49,7 +53,8 @@ const heroSlides = [
     subtitle: "Specialized training for Confined Space, Gas Testing, Crane & Rigging, and LOTO procedures.",
     ctaText: "View Technical Courses",
     ctaLink: "/courses/qhse-technical",
-    image: technicalImg
+    image: technicalImg,
+    themeColor: "50, 40, 30"
   },
   {
     badge: "Career Booster",
@@ -57,7 +62,8 @@ const heroSlides = [
     subtitle: "Fast-track your career with bundled programs like HSE-PCP (4 certificates) and Advanced HSE.",
     ctaText: "View Competency Courses",
     ctaLink: "/courses/qhse-competency",
-    image: competencyImg
+    image: competencyImg,
+    themeColor: "25, 35, 30"
   }
 ];
 
@@ -68,38 +74,55 @@ const homeStyles = {
     fontFamily: 'Arial, sans-serif',
     overflowX: 'hidden',
   },
-  heroCarousel: (bgImage) => ({
+  heroContainer: {
     position: 'relative',
-    padding: '100px 40px 110px 40px',
-    textAlign: 'center',
-    backgroundImage: `url(${bgImage})`,
-    backgroundSize: 'cover',       // Fills the banner completely edge-to-edge with no black bars
-    backgroundPosition: 'center',   // Centers the focal point of the image
-    borderBottom: '1px solid rgba(15, 23, 42, 0.06)',
+    minHeight: '600px',
+    backgroundColor: '#0F172A',
+    borderBottom: '1px solid rgba(15, 23, 42, 0.08)',
+    display: 'flex',
+    alignItems: 'stretch',
     overflow: 'hidden',
-    minHeight: '580px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    boxSizing: 'border-box',
-    transition: 'background-image 0.8s ease-in-out',
+  },
+  // Stacked full-bleed background images
+  bgLayer: (bgImage, isActive) => ({
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundImage: `url(${bgImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center right',
+    opacity: isActive ? 1 : 0,
+    transition: 'opacity 0.6s ease-in-out',
+    zIndex: 1,
   }),
-  heroContentWrapper: {
-    maxWidth: '900px',
-    margin: '0 auto',
+  // Blended blur panel on the left with feathered gradient mask
+  blurPanelLayer: (themeColor, isActive) => ({
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    width: '65%',
+    padding: '80px 70px',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
     justifyContent: 'center',
-    // Frosted glass card backdrop ONLY behind the text box so the photo remains vivid around it
-    backgroundColor: 'rgba(15, 23, 42, 0.78)',
-    padding: '40px 50px',
-    borderRadius: '24px',
-    backdropFilter: 'blur(8px)',
-    border: '1px solid rgba(255, 255, 255, 0.15)',
-    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5)',
-    animation: 'slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+    alignItems: 'flex-start',
+    backgroundColor: `rgba(${themeColor}, 0.88)`,
+    backdropFilter: 'blur(16px)',
+    WebkitBackdropFilter: 'blur(16px)',
+    maskImage: 'linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%)',
+    WebkitMaskImage: 'linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%)',
+    opacity: isActive ? 1 : 0,
+    pointerEvents: isActive ? 'auto' : 'none',
+    transition: 'opacity 0.6s ease-in-out',
+    zIndex: 2,
+    boxSizing: 'border-box',
+  }),
+  heroContentInner: {
+    maxWidth: '520px',
+    animation: 'smoothFadeUp 0.5s ease-out forwards',
   },
   heroBadge: {
     display: 'inline-block',
@@ -115,36 +138,22 @@ const homeStyles = {
     marginBottom: '18px',
   },
   heroTitle: {
-    fontSize: 'clamp(26px, 3.5vw, 40px)',
+    fontSize: 'clamp(28px, 3.5vw, 42px)',
     fontWeight: '800',
     lineHeight: '1.2',
-    marginBottom: '14px',
-    maxWidth: '800px',
-    letterSpacing: '-0.5px',
+    marginBottom: '16px',
     color: '#FFFFFF',
-    height: '110px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
+    letterSpacing: '-0.5px',
   },
   heroSubtitle: {
-    fontSize: '16px',
+    fontSize: '15px',
     lineHeight: '1.6',
-    marginBottom: '26px',
-    maxWidth: '680px',
-    color: '#E2E8F0',
-    height: '50px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
+    marginBottom: '28px',
+    color: '#CBD5E1',
+    maxWidth: '480px',
   },
   portalContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '16px',
-    flexWrap: 'wrap',
+    marginBottom: '32px',
   },
   primaryBtn: {
     backgroundColor: '#059669',
@@ -155,55 +164,71 @@ const homeStyles = {
     fontSize: '14px',
     textDecoration: 'none',
     boxShadow: '0 10px 25px rgba(5, 150, 105, 0.4)',
-    transition: 'transform 0.2s ease',
+    display: 'inline-block',
   },
-  carouselArrowLeft: {
+  // Outer Left Arrow
+  arrowLeft: {
     position: 'absolute',
     left: '24px',
     top: '50%',
     transform: 'translateY(-50%)',
-    backgroundColor: 'rgba(15, 23, 42, 0.85)',
+    backgroundColor: 'rgba(15, 23, 42, 0.75)',
     border: '1px solid rgba(255, 255, 255, 0.2)',
     borderRadius: '50%',
-    width: '44px',
-    height: '44px',
+    width: '46px',
+    height: '46px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     cursor: 'pointer',
     color: '#FFFFFF',
-    boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
+    backdropFilter: 'blur(4px)',
     zIndex: 10,
+    boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+    transition: 'background 0.2s ease',
   },
-  carouselArrowRight: {
+  // Outer Right Arrow
+  arrowRight: {
     position: 'absolute',
     right: '24px',
     top: '50%',
     transform: 'translateY(-50%)',
-    backgroundColor: 'rgba(15, 23, 42, 0.85)',
+    backgroundColor: 'rgba(15, 23, 42, 0.75)',
     border: '1px solid rgba(255, 255, 255, 0.2)',
     borderRadius: '50%',
-    width: '44px',
-    height: '44px',
+    width: '46px',
+    height: '46px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     cursor: 'pointer',
     color: '#FFFFFF',
-    boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
+    backdropFilter: 'blur(4px)',
     zIndex: 10,
+    boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+    transition: 'background 0.2s ease',
   },
-  carouselDots: {
+  // Centered Pagination Dots at the bottom
+  carouselDotsCenter: {
+    position: 'absolute',
+    bottom: '24px',
+    left: '50%',
+    transform: 'translateX(-50%)',
     display: 'flex',
-    justifyContent: 'center',
     gap: '8px',
-    marginTop: '24px',
+    alignItems: 'center',
+    zIndex: 10,
+    backgroundColor: 'rgba(15, 23, 42, 0.6)',
+    padding: '8px 16px',
+    borderRadius: '50px',
+    backdropFilter: 'blur(8px)',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
   },
   dot: (active) => ({
     width: active ? '28px' : '8px',
     height: '8px',
     borderRadius: '4px',
-    backgroundColor: active ? '#34D399' : 'rgba(255, 255, 255, 0.5)',
+    backgroundColor: active ? '#34D399' : 'rgba(255, 255, 255, 0.4)',
     cursor: 'pointer',
     transition: 'all 0.3s ease',
   }),
@@ -330,53 +355,62 @@ function Home() {
     setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
   };
 
-  const slide = heroSlides[currentSlide];
-
   return (
     <div style={homeStyles.container}>
-      {/* Keyframe Animation for Slide Content Transitions */}
       <style>{`
-        @keyframes slideUpFade {
-          0% {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0);
-          }
+        @keyframes smoothFadeUp {
+          0% { opacity: 0; transform: translateY(10px); }
+          100% { opacity: 1; transform: translateY(0); }
         }
       `}</style>
 
-      {/* HERO CAROUSEL SECTION WITH FULL-BLEED BACKGROUND & TEXT CARD */}
-      <div style={homeStyles.heroCarousel(slide.image)}>
-        <button onClick={prevSlide} style={homeStyles.carouselArrowLeft}>
-          <ChevronLeft size={22} />
-        </button>
+      {/* HERO CAROUSEL WITH BLENDED BLUR & STANDARD ARROWS/DOTS */}
+      <div style={homeStyles.heroContainer}>
+        {/* Background Image Layers */}
+        {heroSlides.map((item, idx) => (
+          <div 
+            key={`bg-${idx}`} 
+            style={homeStyles.bgLayer(item.image, idx === currentSlide)} 
+          />
+        ))}
 
-        <div key={currentSlide} style={homeStyles.heroContentWrapper}>
-          <span style={homeStyles.heroBadge}>{slide.badge}</span>
-          <h1 style={homeStyles.heroTitle}>{slide.title}</h1>
-          <p style={homeStyles.heroSubtitle}>{slide.subtitle}</p>
-          <div style={homeStyles.portalContainer}>
-            <Link to={slide.ctaLink} style={homeStyles.primaryBtn}>
-              {slide.ctaText}
-            </Link>
+        {/* Blended Blur Text Panels */}
+        {heroSlides.map((item, idx) => (
+          <div 
+            key={`panel-${idx}`} 
+            style={homeStyles.blurPanelLayer(item.themeColor, idx === currentSlide)}
+          >
+            <div style={homeStyles.heroContentInner}>
+              <span style={homeStyles.heroBadge}>{item.badge}</span>
+              <h1 style={homeStyles.heroTitle}>{item.title}</h1>
+              <p style={homeStyles.heroSubtitle}>{item.subtitle}</p>
+              
+              <div style={homeStyles.portalContainer}>
+                <Link to={item.ctaLink} style={homeStyles.primaryBtn}>
+                  {item.ctaText}
+                </Link>
+              </div>
+            </div>
           </div>
+        ))}
 
-          <div style={homeStyles.carouselDots}>
-            {heroSlides.map((_, idx) => (
-              <div 
-                key={idx} 
-                style={homeStyles.dot(idx === currentSlide)} 
-                onClick={() => setCurrentSlide(idx)}
-              />
-            ))}
-          </div>
+        {/* Centered Pagination Dots at the Bottom */}
+        <div style={homeStyles.carouselDotsCenter}>
+          {heroSlides.map((_, dotIdx) => (
+            <div 
+              key={dotIdx} 
+              style={homeStyles.dot(dotIdx === currentSlide)} 
+              onClick={() => setCurrentSlide(dotIdx)}
+            />
+          ))}
         </div>
 
-        <button onClick={nextSlide} style={homeStyles.carouselArrowRight}>
-          <ChevronRight size={22} />
+        {/* Outer Left & Right Navigation Arrows */}
+        <button onClick={prevSlide} style={homeStyles.arrowLeft}>
+          <ChevronLeft size={24} />
+        </button>
+        <button onClick={nextSlide} style={homeStyles.arrowRight}>
+          <ChevronRight size={24} />
         </button>
       </div>
 
